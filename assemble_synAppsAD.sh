@@ -9,7 +9,7 @@ CONFIGURE=R6-0
 UTILS=R6-0
 DOCUMENTATION=R6-0
 
-#BASE=R7.0.1.1
+BASE=R7.0.1.1
 #ALLENBRADLEY=2.3
 #ALIVE=R1-1-0
 AREA_DETECTOR=R3-3-2
@@ -183,6 +183,41 @@ full_repo_submodule()
 	echo
 }
 
+full_repo_submodule_notag()
+{
+	PROJECT=$1
+	MODULE_NAME=$2
+	RELEASE_NAME=$3
+	TAG=$4
+
+        # Remove R from TAG, and replace . with -
+        if [[ $TAG =~ [R] ]]; then
+            TAG_T=${TAG//R/}
+        else
+            TAG_T=$TAG
+        fi
+#        FOLDER_NAME=$MODULE_NAME-${TAG_T//./-}
+        FOLDER_NAME=$MODULE_NAME
+	
+	echo
+	echo "Grabbing $MODULE_NAME at tag: $TAG"
+	echo
+	
+	git clone -q --recursive https://github.com/$PROJECT/$MODULE_NAME.git $FOLDER_NAME
+	
+	#CURR=$(pwd)
+	#printf -v CURR "%q" "$(pwd)"
+	CURR=$(pwd)
+	echo $CURR
+	
+	cd $FOLDER_NAME
+#	git checkout -q $TAG
+	git checkout master
+	cd "$CURR"
+	echo "$RELEASE_NAME=\$(SUPPORT)/$FOLDER_NAME" >> ./configure/RELEASE
+	
+	echo
+}
 
 shallow_support()
 {
@@ -300,9 +335,10 @@ fi
 if [[ $AREA_DETECTOR ]]
 then 
 
-full_repo_submodule areaDetector areaDetector AREA_DETECTOR  $AREA_DETECTOR
+full_repo_submodule_notag areaDetector areaDetector AREA_DETECTOR  $AREA_DETECTOR
 echo "areaDetector $AREA_DETECTOR"
-cd areaDetector-${AREA_DETECTOR//R/}
+#cd areaDetector-${AREA_DETECTOR//R/}
+cd areaDetector
 #git checkout master
 git submodule foreach --recursive git checkout master
 # git submodule update --init --recursive	# It doesn't checkout master, just all the submodules!
@@ -329,9 +365,11 @@ then
 wget http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-$SNCSEQ.tar.gz
 tar zxf seq-$SNCSEQ.tar.gz
 # The synApps build can't handle '.'
-mv seq-$SNCSEQ seq-${SNCSEQ//./-}
+#mv seq-$SNCSEQ seq-${SNCSEQ//./-}
+mv seq-$SNCSEQ seq
 rm -f seq-$SNCSEQ.tar.gz
-echo "SNCSEQ=\$(SUPPORT)/seq-${SNCSEQ//./-}" >> ./configure/RELEASE
+#echo "SNCSEQ=\$(SUPPORT)/seq-${SNCSEQ//./-}" >> ./configure/RELEASE
+echo "SNCSEQ=\$(SUPPORT)/seq" >> ./configure/RELEASE
 
 fi
 

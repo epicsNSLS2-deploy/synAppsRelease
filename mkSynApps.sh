@@ -18,7 +18,7 @@
 # ################################
 # assemble_synApps.sh modified to AreaDetector 3.2 onley
 # ================================
-bash assemble_synAppsAD3_2.sh full
+bash assemble_synAppsAD.sh full
 cd synApps/support
 #sed -i "s/^EPICS_BASE=.*/EPICS_BASE=\/epics\/base-3.15.5/" configure/RELEASE
 sed -i "s/^EPICS_BASE=.*/EPICS_BASE=\/epics\/base-7.0.1/" configure/RELEASE
