@@ -39,6 +39,7 @@ MCA=R7-7
 #MOTOR=R6-10-1
 #MRFIOC2=2.2.0
 #OPTICS=R2-13-1
+#PMAC=2-1
 #QUADEM=R9-1
 SNCSEQ=2.2.5
 #SOFTGLUE=R2-8-1
@@ -293,6 +294,7 @@ if [[ $MODBUS ]];        then   get_repo epics-modules  modbus         MODBUS   
 if [[ $MOTOR ]];         then   get_repo epics-modules  motor          MOTOR          $MOTOR         ; fi
 if [[ $MRFIOC2 ]];       then   get_repo epics-modules  mrfioc2        MRFIOC2        $MRFIOC2       ; fi
 if [[ $OPTICS ]];        then   get_repo epics-modules  optics         OPTICS         $OPTICS        ; fi
+if [[ $PMAC ]];          then   get_repo dls-controls   pmac           PMAC           $PMAC          ; fi
 if [[ $QUADEM ]];        then   get_repo epics-modules  quadEM         QUADEM         $QUADEM        ; fi
 if [[ $SOFTGLUE ]];      then   get_repo epics-modules  softGlue       SOFTGLUE       $SOFTGLUE      ; fi
 if [[ $SOFTGLUEZYNQ ]];  then   get_repo epics-modules  softGlueZynq   SOFTGLUEZYNQ   $SOFTGLUEZYNQ  ; fi
