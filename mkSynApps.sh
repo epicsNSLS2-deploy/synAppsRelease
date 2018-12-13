@@ -16,7 +16,7 @@
 # ##########################
 
 # ################################
-# assemble_synApps.sh modified to AreaDetector 3.2 onley
+# assemble_synApps.sh modified to AreaDetector 3.2 only
 # ================================
 bash assemble_synAppsAD3_2.sh full
 cd synApps/support
