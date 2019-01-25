@@ -21,7 +21,7 @@
 bash assemble_synAppsAD.sh full
 cd synApps/support
 #sed -i "s/^EPICS_BASE=.*/EPICS_BASE=\/epics\/base-3.15.5/" configure/RELEASE
-sed -i "s/^EPICS_BASE=.*/EPICS_BASE=\/epics\/base-7.0.1/" configure/RELEASE
+sed -i "s/^EPICS_BASE=.*/EPICS_BASE=\/epics\/base-7.0.2/" configure/RELEASE
 make release
 
 #git clone https://github.com/areaDetector/areaDetector
