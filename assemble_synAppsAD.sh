@@ -8,12 +8,11 @@ SUPPORT=R6-0
 CONFIGURE=R6-0
 UTILS=R6-0
 DOCUMENTATION=R6-0
-
-BASE=R7.0.1.1
-ALLENBRADLEY=2.3
+BASE=R7.0.2
+#ALLENBRADLEY=2.3
 ALIVE=R1-1-0
-AREA_DETECTOR=R3-3-2
-ASYN=R4-33
+AREA_DETECTOR=R3-4
+ASYN=R4-34
 AUTOSAVE=R5-9
 BUSY=R1-7
 CALC=R3-7-1
@@ -25,33 +24,29 @@ DEVLIB2=2.9
 DXP=R5-0
 DXPSITORO=R1-1
 DEVIOCSTATS=3.1.15
-GALIL=V3-6
-IP=R2-19-1
+#GALIL=V3-6
+#IP=R2-19-1
 IPAC=2.15
-IP330=R2-9
+#IP330=R2-9
 IPUNIDIG=R2-11
-LABJACK=master
-LOVE=R3-2-6
-LUA=R1-2-2
+#LOVE=R3-2-6
+#LUA=R1-2
 MCA=R7-7
-MEASCOMP=R2-1
-MODBUS=R2-11
-MOTOR=R6-10-1
-MRFIOC2=2.2.0
-OPTICS=R2-13-1
-PMAC=2-1
-QUADEM=R9-1
-SNCSEQ=2.2.5
-SOFTGLUE=R2-8-1
-SOFTGLUEZYNQ=R2-0-1
+#MEASCOMP=R2-1
+#MODBUS=R2-10-1
+MOTOR=R6-11
+#OPTICS=R2-13-1
+#QUADEM=R9-1
+SNCSEQ=2.2.6
+#SOFTGLUE=R2-8-1
+#SOFTGLUEZYNQ=master
 SSCAN=R2-11-1
 STD=R3-5
 STREAM=R2-7-7b
-VAC=R1-7
-VME=R2-9
-YOKOGAWA_DAS=R1-0-0
-XXX=R6-0
-
+#VAC=R1-7
+#VME=R2-9
+#YOKOGAWA_DAS=master
+#XXX=master
 
 shallow_repo()
 {
@@ -141,8 +136,8 @@ full_repo_notag()
 	echo $CURR
 	
 	cd $FOLDER_NAME
-#	git checkout -q $TAG
-	git checkout master
+	git checkout -q $TAG
+#	git checkout master
 	cd "$CURR"
 	echo "$RELEASE_NAME=\$(SUPPORT)/$FOLDER_NAME" >> ./configure/RELEASE
 	
@@ -212,8 +207,8 @@ full_repo_submodule_notag()
 	echo $CURR
 	
 	cd $FOLDER_NAME
-#	git checkout -q $TAG
-	git checkout master
+	git checkout -q $TAG
+#	git checkout master
 	cd "$CURR"
 	echo "$RELEASE_NAME=\$(SUPPORT)/$FOLDER_NAME" >> ./configure/RELEASE
 	
@@ -337,13 +332,20 @@ fi
 if [[ $AREA_DETECTOR ]]
 then 
 
-full_repo_submodule areaDetector areaDetector AREA_DETECTOR  $AREA_DETECTOR
+full_repo_submodule_notag areaDetector areaDetector AREA_DETECTOR  $AREA_DETECTOR
 echo "areaDetector $AREA_DETECTOR"
-cd areaDetector-${AREA_DETECTOR//R/}
+#cd areaDetector-${AREA_DETECTOR//R/}
+cd areaDetector
 #git checkout master
 git submodule foreach --recursive git checkout master
 # git submodule update --init --recursive	# It doesn't checkout master, just all the submodules!
-cd ..
+# epicsNSLS2-areaDetector
+git clone https://github.com/epicsNSLS2-areaDetector/ADUVC
+git clone https://github.com/epicsNSLS2-areaDetector/ADCompVision
+git clone https://github.com/epicsNSLS2-areaDetector/ADPluginBar
+cd configure
+git clone https://github.com/epicsNSLS2-areaDetector/adConfigSetup
+cd ../..
 
 #cd areaDetector-$AREA_DETECTOR
 #git submodule init
@@ -352,9 +354,9 @@ cd ..
 #git submodule update ADSimDetector
 #cd ..
 
-echo 'ADCORE=$(AREA_DETECTOR)/ADCore' >> ./configure/RELEASE
-echo 'ADSUPPORT=$(AREA_DETECTOR)/ADSupport' >> ./configure/RELEASE
-echo 'ADSIMDETECTOR=$(AREA_DETECTOR)/ADSimDetector' >> ./configure/RELEASE
+#echo 'ADCORE=$(AREA_DETECTOR)/ADCore' >> ./configure/RELEASE
+#echo 'ADSUPPORT=$(AREA_DETECTOR)/ADSupport' >> ./configure/RELEASE
+#echo 'ADSIMDETECTOR=$(AREA_DETECTOR)/ADSimDetector' >> ./configure/RELEASE
 
 fi
 
@@ -366,9 +368,11 @@ then
 wget http://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-$SNCSEQ.tar.gz
 tar zxf seq-$SNCSEQ.tar.gz
 # The synApps build can't handle '.'
-mv seq-$SNCSEQ seq-${SNCSEQ//./-}
+#mv seq-$SNCSEQ seq-${SNCSEQ//./-}
+mv seq-$SNCSEQ seq
 rm -f seq-$SNCSEQ.tar.gz
-echo "SNCSEQ=\$(SUPPORT)/seq-${SNCSEQ//./-}" >> ./configure/RELEASE
+#echo "SNCSEQ=\$(SUPPORT)/seq-${SNCSEQ//./-}" >> ./configure/RELEASE
+echo "SNCSEQ=\$(SUPPORT)/seq" >> ./configure/RELEASE
 
 fi
 
