@@ -10,7 +10,7 @@ UTILS=R6-0
 DOCUMENTATION=R6-0
 BASE=R7.0.2
 #ALLENBRADLEY=2.3
-#ALIVE=R1-1-0
+ALIVE=R1-1-0
 AREA_DETECTOR=R3-4
 ASYN=R4-34
 AUTOSAVE=R5-9
@@ -136,8 +136,8 @@ full_repo_notag()
 	echo $CURR
 	
 	cd $FOLDER_NAME
-#	git checkout -q $TAG
-	git checkout master
+	git checkout -q $TAG
+#	git checkout master
 	cd "$CURR"
 	echo "$RELEASE_NAME=\$(SUPPORT)/$FOLDER_NAME" >> ./configure/RELEASE
 	
@@ -207,8 +207,8 @@ full_repo_submodule_notag()
 	echo $CURR
 	
 	cd $FOLDER_NAME
-#	git checkout -q $TAG
-	git checkout master
+	git checkout -q $TAG
+#	git checkout master
 	cd "$CURR"
 	echo "$RELEASE_NAME=\$(SUPPORT)/$FOLDER_NAME" >> ./configure/RELEASE
 	
@@ -339,7 +339,13 @@ cd areaDetector
 #git checkout master
 git submodule foreach --recursive git checkout master
 # git submodule update --init --recursive	# It doesn't checkout master, just all the submodules!
-cd ..
+# epicsNSLS2-areaDetector
+git clone https://github.com/epicsNSLS2-areaDetector/ADUVC
+git clone https://github.com/epicsNSLS2-areaDetector/ADCompVision
+git clone https://github.com/epicsNSLS2-areaDetector/ADPluginBar
+cd configure
+git clone https://github.com/epicsNSLS2-areaDetector/adConfigSetup
+cd ../..
 
 #cd areaDetector-$AREA_DETECTOR
 #git submodule init
@@ -348,9 +354,9 @@ cd ..
 #git submodule update ADSimDetector
 #cd ..
 
-echo 'ADCORE=$(AREA_DETECTOR)/ADCore' >> ./configure/RELEASE
-echo 'ADSUPPORT=$(AREA_DETECTOR)/ADSupport' >> ./configure/RELEASE
-echo 'ADSIMDETECTOR=$(AREA_DETECTOR)/ADSimDetector' >> ./configure/RELEASE
+#echo 'ADCORE=$(AREA_DETECTOR)/ADCore' >> ./configure/RELEASE
+#echo 'ADSUPPORT=$(AREA_DETECTOR)/ADSupport' >> ./configure/RELEASE
+#echo 'ADSIMDETECTOR=$(AREA_DETECTOR)/ADSimDetector' >> ./configure/RELEASE
 
 fi
 
